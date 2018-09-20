@@ -196,6 +196,7 @@ class Mailer implements MailerInterface
         
         try {
             
+            // SSL/TLS
             $protocol = ($this->transport['encryption']==='ssl') ? "ssl://" : '';
 
             if (!($socket = fsockopen($protocol . $this->transport['host'], $this->transport['port'], $errno, $errstr, 15))) {
@@ -208,7 +209,7 @@ class Mailer implements MailerInterface
             $this->_socket_send($socket, 'EHLO '.$this->transport['host']."\r\n");
             $this->_server_parse($socket, '250');
 
-            // TLS Encryption
+            // STARTTLS 
             if ($this->transport['encryption']==='tls') {
 
                 $this->_socket_send($socket, 'STARTTLS'."\r\n");
